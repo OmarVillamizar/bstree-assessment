@@ -39,8 +39,7 @@ export const insert = (node, value) => {
     return createNode(value);
   }
 
-  // BUG: La comparación siempre va a la derecha
-  // Debería ir a la izquierda cuando value < node.value
+  // BUG 5 Correccion: Funcion pura: no modifica estado externo, apta para memoizacion desde el componente
   if (value > node.value) {
     return {
       ...node,
