@@ -1,26 +1,46 @@
-# Dependencies
+# Node
 node_modules/
-package-lock.json
-yarn.lock
 
-# Vite
+# Build outputs
 dist/
+dist-ssr/
+build/
+
+# Vite cache
 .vite/
+
+# IDEs and Editors
+.vscode/
+.idea/
+*.sw?
+*.swn
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
 
 # Environment
 .env
 .env.local
 .env.*.local
 
-# Editor
-.vscode/
-.idea/
-*.swp
-*.swo
-*~
-.DS_Store
+# Testing and Linting
+coverage/
+.eslintcache
 
-# Logs
-npm-debug.log*
-yarn-debug.log*
-yarn-error.log*
+# Lock files — keep only one per package manager
+package-lock.json
+yarn.lock
+pnpm-lock.yaml
+
+# OS temp files
+*~
+*.bak
+
+# Ignore project-wide instructions (kept local, never committed)
+AGENTS.md
