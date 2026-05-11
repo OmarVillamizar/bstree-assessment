@@ -43,13 +43,13 @@ export default function BSTVisualizer() {
   const handleInsert = () => {
     const parsed = parseInt(inputValue, 10);
 
-    // BUG #6 (UX): Acepta NaN silenciosamente. Si el usuario escribe
-    // "abc" y presiona insertar, no pasa nada y no hay feedback.
-    // El error se traga. Debes manejar este caso y mostrar el errorMessage.
+    // BUG 6 Correccion: Validacion de entrada: se descarta el valor si no es un numero valido
     if (!isNaN(parsed)) {
       setRoot((prevRoot) => insert(prevRoot, parsed));
       setInputValue("");
       setErrorMessage("");
+    } else {
+      setErrorMessage("Por favor, ingresa un numero valido.");
     }
   };
 
