@@ -35,7 +35,8 @@ export const createNode = (value) => ({
  */
 export const insert = (node, value) => {
   if (node === null) {
-    return createNode(value); // ← Esto está bien, pero ¿cuándo se usa?
+    // BUG 2 Correccion: Caso base: si el nodo no existe, se crea uno nuevo con el valor recibido
+    return createNode(value);
   }
 
   // BUG: La comparación siempre va a la derecha
