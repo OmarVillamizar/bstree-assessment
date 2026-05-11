@@ -146,13 +146,13 @@ export const toD3Format = (node) => {
 
   const children = [];
 
-  // BUG: Si node.left es null pero node.right no, nunca se agrega node.right
+  // BUG 4 Correccion: Se agrega el hijo derecho al formato D3; antes solo se procesaba el izquierdo
   if (node.left !== null) {
     children.push(toD3Format(node.left));
+  }
 
-    if (node.right !== null) {
-      children.push(toD3Format(node.right));
-    }
+  if (node.right !== null) {
+    children.push(toD3Format(node.right));
   }
 
   return {
