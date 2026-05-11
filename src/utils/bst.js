@@ -73,8 +73,8 @@ export const insert = (node, value) => {
 export const search = (node, value) => {
   if (node === null) return null;
 
-  // BUG: == permite coerción: search(root, "10") === search(root, 10)
-  if (node.value == value) return node; // eslint-disable-line eqeqeq
+  // BUG 3 Correccion: Comparacion estricta para evitar coercion de tipos
+  if (node.value === value) return node;
 
   if (value < node.value) {
     return search(node.left, value);
