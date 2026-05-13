@@ -17,18 +17,6 @@ import SearchBar from "./SearchBar";
 
 import styles from "./BSTVisualizer.module.css";
 
-// BUG #5 (Performance): Esta función se recrea en cada render.
-// Cuando el árbol tiene 20+ nodos, el re-render se siente lento.
-// Pista: ¿qué hook de React sirve para memoizar una función?
-const getTraversalResult = (root, type) => {
-  switch (type) {
-    case "inOrder":   return inOrder(root);
-    case "preOrder":  return preOrder(root);
-    case "postOrder": return postOrder(root);
-    default: return [];
-  }
-};
-
 // ─── Component ───────────────────────────────────────────────────────────────
 
 export default function BSTVisualizer() {
@@ -38,6 +26,16 @@ export default function BSTVisualizer() {
   const [searchTerm, setSearchTerm]       = useState("");
   const [foundNode, setFoundNode]         = useState(null);
   const [errorMessage, setErrorMessage]   = useState("");
+
+  // Memoizada con useCallback para evitar recalculos en cada render
+  const getTraversalResult = useCallback((root, type) => {
+    switch (type) {
+      case "inOrder":   return inOrder(root);
+      case "preOrder":  return preOrder(root);
+      case "postOrder": return postOrder(root);
+      default: return [];
+    }
+  }, []);
 
   // ── Insert ──────────────────────────────────────────────────────────────────
   const handleInsert = () => {
@@ -69,8 +67,6 @@ export default function BSTVisualizer() {
   // ── Derived data ────────────────────────────────────────────────────────────
   const d3Data     = root ? toD3Format(root) : null;
 
-  // BUG #5 continúa: traversalResult se recalcula en cada render,
-  // no solo cuando root o activeTraversal cambian.
   const traversalResult = activeTraversal
     ? getTraversalResult(root, activeTraversal)
     : [];
