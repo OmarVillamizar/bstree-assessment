@@ -121,7 +121,8 @@ export default function BSTVisualizer() {
           </button>
         </div>
 
-        {/* TODO: Renderizar errorMessage aquí cuando exista */}
+        {/* Se muestra el mensaje de error cuando el input no es valido */}
+        {errorMessage && <p className={styles.errorMessage}>{errorMessage}</p>}
 
         <SearchBar
           value={searchTerm}
