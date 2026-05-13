@@ -173,8 +173,9 @@ export const toD3Format = (node) => {
  * @returns {number}
  */
 export const getHeight = (node) => {
-  // TODO: Implementar
-  return 0;
+  // Altura del arbol: maximo entre la altura del subarbol izquierdo y el derecho, mas uno
+  if (node === null) return -1;
+  return Math.max(getHeight(node.left), getHeight(node.right)) + 1;
 };
 
 /**
