@@ -43,4 +43,3 @@ pnpm-lock.yaml
 *.bak
 
 # Ignore project-wide instructions (kept local, never committed)
-AGENTS.md

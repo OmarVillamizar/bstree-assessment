@@ -8,7 +8,7 @@
  * Usa React DevTools Profiler para encontrarlos.
  */
 
-import { useState, useCallback } from "react";
+import { useState, useCallback, useMemo } from "react";
 import Tree from "react-d3-tree";
 
 import { insert, search, inOrder, preOrder, postOrder, toD3Format, randomInt } from "../utils/bst";
@@ -65,11 +65,16 @@ export default function BSTVisualizer() {
   };
 
   // ── Derived data ────────────────────────────────────────────────────────────
-  const d3Data     = root ? toD3Format(root) : null;
+  // Performance: toD3Format recorre el arbol recursivamente. useMemo evita
+  // recalcularlo en renders donde root no ha cambiado (ej: escribir en el input).
+  const d3Data = useMemo(() => root ? toD3Format(root) : null, [root]);
 
-  const traversalResult = activeTraversal
-    ? getTraversalResult(root, activeTraversal)
-    : [];
+  // Performance: inOrder/preOrder/postOrder recorren el arbol completo.
+  // useMemo evita recorridos innecesarios cuando root o activeTraversal no cambian.
+  const traversalResult = useMemo(
+    () => activeTraversal ? getTraversalResult(root, activeTraversal) : [],
+    [root, activeTraversal]
+  );
 
   // ── Node Rendering ──────────────────────────────────────────────────────────
   /**
