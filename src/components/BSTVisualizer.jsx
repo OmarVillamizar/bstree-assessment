@@ -83,8 +83,8 @@ export default function BSTVisualizer() {
    */
   const renderCustomNode = ({ nodeDatum }) => (
     <g>
-      {/* TODO: Cambiar el color del círculo si nodeDatum.name === String(foundNode) */}
-      <circle r={20} fill="#4A90D9" stroke="#fff" strokeWidth={2} />
+      {/* Si el valor del nodo coincide con el buscado, se aplica la clase de resaltado */}
+      <circle r={20} fill={nodeDatum.name === String(foundNode) ? "#F59E0B" : "#4A90D9"} stroke="#fff" strokeWidth={2} />
       <text
         fill="white"
         textAnchor="middle"
