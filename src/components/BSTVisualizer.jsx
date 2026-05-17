@@ -11,7 +11,7 @@
 import { useState, useCallback, useMemo } from "react";
 import Tree from "react-d3-tree";
 
-import { insert, search, inOrder, preOrder, postOrder, toD3Format, randomInt } from "../utils/bst";
+import { insert, search, inOrder, preOrder, postOrder, getHeight, toD3Format, randomInt } from "../utils/bst";
 import TraversalPanel from "./TraversalPanel";
 import SearchBar from "./SearchBar";
 
@@ -26,6 +26,7 @@ export default function BSTVisualizer() {
   const [searchTerm, setSearchTerm]       = useState("");
   const [foundNode, setFoundNode]         = useState(null);
   const [errorMessage, setErrorMessage]   = useState("");
+  const [heightResult, setHeightResult]   = useState(null);
 
   // Memoizada con useCallback para evitar recalculos en cada render
   const getTraversalResult = useCallback((root, type) => {
@@ -64,6 +65,12 @@ export default function BSTVisualizer() {
     setFoundNode(result ? result.value : null);
   };
 
+  // ── Get Height ──────────────────────────────────────────────────────────────
+  // Calcula la altura del arbol usando la funcion pura getHeight
+  const handleGetHeight = useCallback(() => {
+    setHeightResult(getHeight(root));
+  }, [root]);
+
   // ── Derived data ────────────────────────────────────────────────────────────
   // Performance: toD3Format recorre el arbol recursivamente. useMemo evita
   // recalcularlo en renders donde root no ha cambiado (ej: escribir en el input).
@@ -90,8 +97,9 @@ export default function BSTVisualizer() {
         fill="white"
         textAnchor="middle"
         dominantBaseline="central"
-        fontSize={12}
-        fontWeight="bold"
+        fontFamily="Poppins, sans-serif"
+        fontSize={16}
+        fontWeight="400"
       >
         {nodeDatum.name}
       </text>
@@ -138,6 +146,8 @@ export default function BSTVisualizer() {
         active={activeTraversal}
         onChange={setTraversal}
         result={traversalResult}
+        heightResult={heightResult}
+        onGetHeight={handleGetHeight}
       />
 
       {/* Tree Visualization */}
