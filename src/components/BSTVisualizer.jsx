@@ -17,18 +17,6 @@ import SearchBar from "./SearchBar";
 
 import styles from "./BSTVisualizer.module.css";
 
-// BUG #5 (Performance): Esta función se recrea en cada render.
-// Cuando el árbol tiene 20+ nodos, el re-render se siente lento.
-// Pista: ¿qué hook de React sirve para memoizar una función?
-const getTraversalResult = (root, type) => {
-  switch (type) {
-    case "inOrder":   return inOrder(root);
-    case "preOrder":  return preOrder(root);
-    case "postOrder": return postOrder(root);
-    default: return [];
-  }
-};
-
 // ─── Component ───────────────────────────────────────────────────────────────
 
 export default function BSTVisualizer() {
@@ -39,6 +27,16 @@ export default function BSTVisualizer() {
   const [foundNode, setFoundNode]         = useState(null);
   const [errorMessage, setErrorMessage]   = useState("");
   const [heightResult, setHeightResult]   = useState(null);
+
+  // Memoizada con useCallback para evitar recalculos en cada render
+  const getTraversalResult = useCallback((root, type) => {
+    switch (type) {
+      case "inOrder":   return inOrder(root);
+      case "preOrder":  return preOrder(root);
+      case "postOrder": return postOrder(root);
+      default: return [];
+    }
+  }, []);
 
   // ── Insert ──────────────────────────────────────────────────────────────────
   const handleInsert = () => {
@@ -75,8 +73,6 @@ export default function BSTVisualizer() {
   // ── Derived data ────────────────────────────────────────────────────────────
   const d3Data     = root ? toD3Format(root) : null;
 
-  // BUG #5 continúa: traversalResult se recalcula en cada render,
-  // no solo cuando root o activeTraversal cambian.
   const traversalResult = activeTraversal
     ? getTraversalResult(root, activeTraversal)
     : [];
@@ -89,7 +85,11 @@ export default function BSTVisualizer() {
    */
   const renderCustomNode = ({ nodeDatum }) => (
     <g>
+<<<<<<< HEAD
       {/* TODO: Cambiar el color del círculo si nodeDatum.name === String(foundNode) */}
+=======
+      {/* Si el valor del nodo coincide con el buscado, se aplica la clase de resaltado */}
+>>>>>>> feature/node-highlight
       <circle r={20} fill={nodeDatum.name === String(foundNode) ? "#F59E0B" : "#4A90D9"} stroke="#fff" strokeWidth={2} />
       <text
         fill="white"
@@ -128,6 +128,10 @@ export default function BSTVisualizer() {
           </button>
         </div>
 
+<<<<<<< HEAD
+=======
+        {/* Se muestra el mensaje de error cuando el input no es valido */}
+>>>>>>> feature/node-highlight
         {errorMessage && <p className={styles.errorMessage}>{errorMessage}</p>}
 
         <SearchBar
