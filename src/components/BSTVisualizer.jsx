@@ -11,7 +11,7 @@
 import { useState, useCallback } from "react";
 import Tree from "react-d3-tree";
 
-import { insert, search, inOrder, preOrder, postOrder, toD3Format, randomInt } from "../utils/bst";
+import { insert, search, inOrder, preOrder, postOrder, getHeight, toD3Format, randomInt } from "../utils/bst";
 import TraversalPanel from "./TraversalPanel";
 import SearchBar from "./SearchBar";
 
@@ -38,6 +38,7 @@ export default function BSTVisualizer() {
   const [searchTerm, setSearchTerm]       = useState("");
   const [foundNode, setFoundNode]         = useState(null);
   const [errorMessage, setErrorMessage]   = useState("");
+  const [heightResult, setHeightResult]   = useState(null);
 
   // ── Insert ──────────────────────────────────────────────────────────────────
   const handleInsert = () => {
@@ -66,6 +67,11 @@ export default function BSTVisualizer() {
     setFoundNode(result ? result.value : null);
   };
 
+  // ── Get Height ──────────────────────────────────────────────────────────────
+  const handleGetHeight = () => {
+    setHeightResult(getHeight(root));
+  };
+
   // ── Derived data ────────────────────────────────────────────────────────────
   const d3Data     = root ? toD3Format(root) : null;
 
@@ -84,13 +90,14 @@ export default function BSTVisualizer() {
   const renderCustomNode = ({ nodeDatum }) => (
     <g>
       {/* TODO: Cambiar el color del círculo si nodeDatum.name === String(foundNode) */}
-      <circle r={20} fill="#4A90D9" stroke="#fff" strokeWidth={2} />
+      <circle r={20} fill={nodeDatum.name === String(foundNode) ? "#F59E0B" : "#4A90D9"} stroke="#fff" strokeWidth={2} />
       <text
         fill="white"
         textAnchor="middle"
         dominantBaseline="central"
-        fontSize={12}
-        fontWeight="bold"
+        fontFamily="Poppins, sans-serif"
+        fontSize={16}
+        fontWeight="400"
       >
         {nodeDatum.name}
       </text>
@@ -121,7 +128,7 @@ export default function BSTVisualizer() {
           </button>
         </div>
 
-        {/* TODO: Renderizar errorMessage aquí cuando exista */}
+        {errorMessage && <p className={styles.errorMessage}>{errorMessage}</p>}
 
         <SearchBar
           value={searchTerm}
@@ -136,6 +143,8 @@ export default function BSTVisualizer() {
         active={activeTraversal}
         onChange={setTraversal}
         result={traversalResult}
+        heightResult={heightResult}
+        onGetHeight={handleGetHeight}
       />
 
       {/* Tree Visualization */}
