@@ -4,7 +4,7 @@
 Empleabilidad · Universidad Francisco de Paula Santander
 
 - **Repositorio**: [https://github.com/OmarVillamizar/bstree-assessment/]
-- **Video YouTube**: [https://youtu.be/-q9MBqRgyc4]
+- **Video YouTube**: [https://youtu.be/PHJ3Da7yUts]
 
 ## Nivel 1 — Bug Fixing (6 bugs corregidos)
 
@@ -194,4 +194,4 @@ El agente me asistió durante todo el flujo de trabajo. Estas fueron las interac
 ## 🔗 Enlaces de Entrega
 
 - **Repositorio**: [https://github.com/OmarVillamizar/bstree-assessment/]
-- **Video YouTube**: [https://youtu.be/-q9MBqRgyc4]
+- **Video YouTube**: [https://youtu.be/PHJ3Da7yUts]
