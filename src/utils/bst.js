@@ -95,8 +95,9 @@ export const search = (node, value) => {
  * @returns {number[]}
  */
 export const inOrder = (node) => {
-  // TODO: Implementar
-  return [];
+  // Recorrido en orden: produce los valores en orden ascendente
+  if (node === null) return [];
+  return [...inOrder(node.left), node.value, ...inOrder(node.right)];
 };
 
 /**
@@ -108,8 +109,9 @@ export const inOrder = (node) => {
  * @returns {number[]}
  */
 export const preOrder = (node) => {
-  // TODO: Implementar
-  return [];
+  // Recorrido previo: la raiz se visita antes que sus hijos
+  if (node === null) return [];
+  return [node.value, ...preOrder(node.left), ...preOrder(node.right)];
 };
 
 /**
@@ -121,8 +123,9 @@ export const preOrder = (node) => {
  * @returns {number[]}
  */
 export const postOrder = (node) => {
-  // TODO: Implementar
-  return [];
+  // Recorrido posterior: los hijos se visitan antes que la raiz
+  if (node === null) return [];
+  return [...postOrder(node.left), ...postOrder(node.right), node.value];
 };
 
 // ─── Tree Transformation ─────────────────────────────────────────────────────
@@ -170,8 +173,9 @@ export const toD3Format = (node) => {
  * @returns {number}
  */
 export const getHeight = (node) => {
-  // TODO: Implementar
-  return 0;
+  // Altura del arbol: maximo entre la altura del subarbol izquierdo y el derecho, mas uno
+  if (node === null) return -1;
+  return Math.max(getHeight(node.left), getHeight(node.right)) + 1;
 };
 
 /**
