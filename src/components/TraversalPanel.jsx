@@ -17,6 +17,7 @@ export default function TraversalPanel({ active, onChange, result, heightResult,
         {renderButton("inOrder", "In-Order")}
         {renderButton("preOrder", "Pre-Order")}
         {renderButton("postOrder", "Post-Order")}
+        {/* Boton de altura: mismo formato que los recorridos, usa getHeight */}
         <button
           type="button"
           onClick={onGetHeight}

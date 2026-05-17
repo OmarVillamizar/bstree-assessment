@@ -8,7 +8,7 @@
  * Usa React DevTools Profiler para encontrarlos.
  */
 
-import { useState, useCallback } from "react";
+import { useState, useCallback, useMemo } from "react";
 import Tree from "react-d3-tree";
 
 import { insert, search, inOrder, preOrder, postOrder, getHeight, toD3Format, randomInt } from "../utils/bst";
@@ -66,16 +66,22 @@ export default function BSTVisualizer() {
   };
 
   // ── Get Height ──────────────────────────────────────────────────────────────
-  const handleGetHeight = () => {
+  // Calcula la altura del arbol usando la funcion pura getHeight, memoizado con useCallback
+  const handleGetHeight = useCallback(() => {
     setHeightResult(getHeight(root));
-  };
+  }, [root]);
 
   // ── Derived data ────────────────────────────────────────────────────────────
-  const d3Data     = root ? toD3Format(root) : null;
+  // Performance: toD3Format recorre el arbol recursivamente. useMemo evita
+  // recalcularlo en renders donde root no ha cambiado (ej: escribir en el input).
+  const d3Data = useMemo(() => root ? toD3Format(root) : null, [root]);
 
-  const traversalResult = activeTraversal
-    ? getTraversalResult(root, activeTraversal)
-    : [];
+  // Performance: inOrder/preOrder/postOrder recorren el arbol completo.
+  // useMemo evita recorridos innecesarios cuando root o activeTraversal no cambian.
+  const traversalResult = useMemo(
+    () => activeTraversal ? getTraversalResult(root, activeTraversal) : [],
+    [root, activeTraversal]
+  );
 
   // ── Node Rendering ──────────────────────────────────────────────────────────
   /**
@@ -85,11 +91,7 @@ export default function BSTVisualizer() {
    */
   const renderCustomNode = ({ nodeDatum }) => (
     <g>
-<<<<<<< HEAD
-      {/* TODO: Cambiar el color del círculo si nodeDatum.name === String(foundNode) */}
-=======
       {/* Si el valor del nodo coincide con el buscado, se aplica la clase de resaltado */}
->>>>>>> feature/node-highlight
       <circle r={20} fill={nodeDatum.name === String(foundNode) ? "#F59E0B" : "#4A90D9"} stroke="#fff" strokeWidth={2} />
       <text
         fill="white"
@@ -128,10 +130,7 @@ export default function BSTVisualizer() {
           </button>
         </div>
 
-<<<<<<< HEAD
-=======
         {/* Se muestra el mensaje de error cuando el input no es valido */}
->>>>>>> feature/node-highlight
         {errorMessage && <p className={styles.errorMessage}>{errorMessage}</p>}
 
         <SearchBar
