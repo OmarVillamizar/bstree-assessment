@@ -39,7 +39,7 @@ export const insert = (node, value) => {
     return createNode(value);
   }
 
-  // BUG 5 Correccion: Funcion pura: no modifica estado externo, apta para memoizacion desde el componente
+  // BUG 5 Correccion: Funcion pura: no modifica estado externo, apta para el react memo desde el componente
   if (value > node.value) {
     return {
       ...node,
